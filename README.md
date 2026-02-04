@@ -1,3 +1,5 @@
+###📁 Estructura del Proyecto
+
 PastisserieAPI/
 ├── PastisserieAPI.sln                    # Solución principal
 ├── .gitignore                            # Archivos ignorados por Git
@@ -52,7 +54,7 @@ PastisserieAPI/
 │   │       └── PedidoConfiguration.cs
 │   ├── Migrations/                       # Migraciones de EF Core
 │   │   ├── 20260201XXXXXX_InitialCreate.cs
-│   │   └── ApplicationDbContextModelSnapshot.cs
+│   │   └── ApplicationDbContextModelSnapshot.cs    
 │   ├── Repositorie/                      # Implementaciones
 │   │   ├── Repository.cs                # Repositorio genérico
 │   │   ├── UnitOfWork.cs                # Unit of Work
