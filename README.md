@@ -1,4 +1,4 @@
-##PastisserieAPI/ 
+## PastisserieAPI/ 
 ├── PastisserieAPI.sln                    # Solución principal
 ├── .gitignore                            # Archivos ignorados por Git
 ├── README.md                             # Este archivo
