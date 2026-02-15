@@ -23,7 +23,6 @@ namespace PastisserieAPI.Infrastructure.Repositories
         // Repositorios genéricos
         private IRepository<Rol>? _roles;
         private IRepository<CategoriaProducto>? _categorias;
-        private IRepository<Ingrediente>? _ingredientes;
         private IRepository<TipoMetodoPago>? _tiposMetodoPago;
         private IRepository<Notificacion>? _notificaciones;
 
@@ -77,11 +76,6 @@ namespace PastisserieAPI.Infrastructure.Repositories
         public IRepository<CategoriaProducto> Categorias
         {
             get { return _categorias ??= new Repository<CategoriaProducto>(_context); }
-        }
-
-        public IRepository<Ingrediente> Ingredientes
-        {
-            get { return _ingredientes ??= new Repository<Ingrediente>(_context); }
         }
 
         public IRepository<TipoMetodoPago> TiposMetodoPago

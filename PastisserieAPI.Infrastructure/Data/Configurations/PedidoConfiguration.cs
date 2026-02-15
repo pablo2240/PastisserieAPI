@@ -20,9 +20,6 @@ namespace PastisserieAPI.Infrastructure.Data.Configurations
             builder.Property(p => p.Subtotal)
                 .HasColumnType("decimal(18,2)");
 
-            builder.Property(p => p.IVA)
-                .HasColumnType("decimal(18,2)");
-
             builder.Property(p => p.CostoEnvio)
                 .HasColumnType("decimal(18,2)");
 
@@ -37,12 +34,6 @@ namespace PastisserieAPI.Infrastructure.Data.Configurations
             builder.HasOne(p => p.Factura)
                 .WithOne(f => f.Pedido)
                 .HasForeignKey<Factura>(f => f.PedidoId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            // Relación con PersonalizadoConfig (1:0..1)
-            builder.HasOne(p => p.PersonalizadoConfig)
-                .WithOne(pc => pc.Pedido)
-                .HasForeignKey<PersonalizadoConfig>(pc => pc.PedidoId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Relación con Envio (1:0..1)

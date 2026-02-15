@@ -8,10 +8,8 @@
         public DateTime FechaPedido { get; set; }
         public string Estado { get; set; } = string.Empty;
         public decimal Subtotal { get; set; }
-        public decimal IVA { get; set; }
         public decimal CostoEnvio { get; set; }
         public decimal Total { get; set; }
-        public bool EsPersonalizado { get; set; }
         public bool Aprobado { get; set; }
         public DateTime? FechaEntregaEstimada { get; set; }
         public List<PedidoItemResponseDto> Items { get; set; } = new();

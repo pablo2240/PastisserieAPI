@@ -26,16 +26,11 @@ namespace PastisserieAPI.Core.Entities
         public decimal Subtotal { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
-        public decimal IVA { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
         public decimal CostoEnvio { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Total { get; set; }
-
-        public bool EsPersonalizado { get; set; } = false;
 
         public bool Aprobado { get; set; } = false;
 
@@ -62,7 +57,6 @@ namespace PastisserieAPI.Core.Entities
 
         public virtual ICollection<PedidoItem> Items { get; set; } = new List<PedidoItem>();
         public virtual Factura? Factura { get; set; }
-        public virtual PersonalizadoConfig? PersonalizadoConfig { get; set; }
         public virtual Envio? Envio { get; set; }
         public virtual ICollection<PedidoHistorial> Historial { get; set; } = new List<PedidoHistorial>();
     }

@@ -11,7 +11,7 @@ namespace PastisserieAPI.Infrastructure.Data
 
             // Connection string hardcoded para migraciones
             optionsBuilder.UseSqlServer(
-                "Server=(localdb)\\mssqllocaldb;Database=PastisserieDB;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+                "Server=(localdb)\\MSSQLLocalDB;Database=PastisserieDB;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
             );
 
             return new ApplicationDbContext(optionsBuilder.Options);

@@ -26,10 +26,6 @@ namespace PastisserieAPI.Infrastructure.Data
         public DbSet<PedidoHistorial> PedidoHistoriales { get; set; }
         public DbSet<Factura> Facturas { get; set; }
 
-        // ============ PERSONALIZACIÓN ============
-        public DbSet<PersonalizadoConfig> PersonalizadoConfigs { get; set; }
-        public DbSet<Ingrediente> Ingredientes { get; set; }
-        public DbSet<PersonalizadoConfigIngrediente> PersonalizadoConfigIngredientes { get; set; }
 
         // ============ CARRITO ============
         public DbSet<CarritoCompra> CarritosCompra { get; set; }
@@ -125,20 +121,9 @@ namespace PastisserieAPI.Infrastructure.Data
                 new CategoriaProducto { Id = 1, Nombre = "Tortas", Descripcion = "Tortas y pasteles", Activa = true },
                 new CategoriaProducto { Id = 2, Nombre = "Panes", Descripcion = "Variedad de panes artesanales", Activa = true },
                 new CategoriaProducto { Id = 3, Nombre = "Postres", Descripcion = "Postres y dulces", Activa = true },
-                new CategoriaProducto { Id = 4, Nombre = "Galletas", Descripcion = "Galletas caseras", Activa = true },
-                new CategoriaProducto { Id = 5, Nombre = "Personalizados", Descripcion = "Productos personalizables", Activa = true }
+                new CategoriaProducto { Id = 4, Nombre = "Galletas", Descripcion = "Galletas caseras", Activa = true }
             );
 
-            // ============ INGREDIENTES PARA PERSONALIZACIÓN ============
-            modelBuilder.Entity<Ingrediente>().HasData(
-                new Ingrediente { Id = 1, Nombre = "Arequipe", Descripcion = "Relleno de arequipe", PrecioAdicional = 5000, Activo = true },
-                new Ingrediente { Id = 2, Nombre = "Crema de chocolate", Descripcion = "Crema de chocolate belga", PrecioAdicional = 7000, Activo = true },
-                new Ingrediente { Id = 3, Nombre = "Fresas frescas", Descripcion = "Fresas naturales", PrecioAdicional = 8000, Activo = true },
-                new Ingrediente { Id = 4, Nombre = "Frutas mixtas", Descripcion = "Variedad de frutas", PrecioAdicional = 10000, Activo = true },
-                new Ingrediente { Id = 5, Nombre = "Chispas de chocolate", Descripcion = "Chispas de chocolate", PrecioAdicional = 3000, Activo = true },
-                new Ingrediente { Id = 6, Nombre = "Nueces", Descripcion = "Nueces tostadas", PrecioAdicional = 6000, Activo = true },
-                new Ingrediente { Id = 7, Nombre = "Coco rallado", Descripcion = "Coco natural rallado", PrecioAdicional = 4000, Activo = true }
-            );
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -58,12 +58,6 @@ namespace PastisserieAPI.Services.Services
             return _mapper.Map<List<ProductoResponseDto>>(productos);
         }
 
-        public async Task<List<ProductoResponseDto>> GetPersonalizablesAsync()
-        {
-            var productos = await _unitOfWork.Productos.GetPersonalizablesAsync();
-            return _mapper.Map<List<ProductoResponseDto>>(productos);
-        }
-
         public async Task<ProductoResponseDto> CreateAsync(CreateProductoRequestDto request)
         {
             var producto = _mapper.Map<Producto>(request);

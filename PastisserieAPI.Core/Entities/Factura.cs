@@ -20,9 +20,6 @@ namespace PastisserieAPI.Core.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Subtotal { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal IVA { get; set; }
-
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Total { get; set; }

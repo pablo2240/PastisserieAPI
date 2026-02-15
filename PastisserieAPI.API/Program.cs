@@ -62,6 +62,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<ICarritoService, CarritoService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 // Autenticación JWT
 builder.Services.AddAuthentication(options =>

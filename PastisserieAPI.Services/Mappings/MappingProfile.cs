@@ -58,21 +58,13 @@ namespace PastisserieAPI.Services.Mappings
                 .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => "Pendiente"))
                 .ForMember(dest => dest.Aprobado, opt => opt.MapFrom(src => false))
-                .ForMember(dest => dest.EsPersonalizado, opt => opt.MapFrom(src => src.PersonalizadoConfig != null))
-                .ForMember(dest => dest.Items, opt => opt.Ignore())
-                .ForMember(dest => dest.PersonalizadoConfig, opt => opt.Ignore());
+                .ForMember(dest => dest.Items, opt => opt.Ignore());
 
             CreateMap<PedidoItemRequestDto, PedidoItem>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.PedidoId, opt => opt.Ignore())
                 .ForMember(dest => dest.PrecioUnitario, opt => opt.Ignore())
                 .ForMember(dest => dest.Subtotal, opt => opt.Ignore());
-
-            CreateMap<PersonalizadoConfigRequestDto, PersonalizadoConfig>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.PedidoId, opt => opt.Ignore())
-                .ForMember(dest => dest.PrecioAdicional, opt => opt.Ignore())
-                .ForMember(dest => dest.Ingredientes, opt => opt.Ignore());
 
             // ============ CARRITO MAPPINGS ============
             CreateMap<CarritoCompra, CarritoResponseDto>()
@@ -114,9 +106,6 @@ namespace PastisserieAPI.Services.Mappings
 
             // ============ CATEGORIA MAPPINGS ============
             CreateMap<CategoriaProducto, CategoriaProducto>();
-
-            // ============ INGREDIENTE MAPPINGS ============
-            CreateMap<Ingrediente, Ingrediente>();
         }
     }
 }

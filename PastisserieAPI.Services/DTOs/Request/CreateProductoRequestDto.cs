@@ -9,6 +9,5 @@
         public int? StockMinimo { get; set; }
         public string Categoria { get; set; } = string.Empty;
         public string? ImagenUrl { get; set; }
-        public bool EsPersonalizable { get; set; } = false;
     }
 }

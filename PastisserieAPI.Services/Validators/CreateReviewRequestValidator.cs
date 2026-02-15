@@ -16,6 +16,12 @@ namespace PastisserieAPI.Services.Validators
             RuleFor(x => x.Comentario)
                 .MaximumLength(1000).WithMessage("El comentario no puede exceder 1000 caracteres")
                 .When(x => !string.IsNullOrEmpty(x.Comentario));
+
+            // Validación: Si hay comentario, no puede ser solo espacios en blanco
+            RuleFor(x => x.Comentario)
+                .Must(comentario => !string.IsNullOrWhiteSpace(comentario))
+                .WithMessage("El comentario no puede estar vacío o contener solo espacios")
+                .When(x => !string.IsNullOrEmpty(x.Comentario));
         }
     }
 }

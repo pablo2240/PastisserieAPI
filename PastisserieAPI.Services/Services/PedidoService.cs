@@ -53,11 +53,10 @@ namespace PastisserieAPI.Services.Services
                 await _unitOfWork.Productos.UpdateAsync(producto);
             }
 
-            // Calcular IVA y total
+            // Calcular total
             pedido.Subtotal = subtotal;
-            pedido.IVA = subtotal * 0.19m; // 19% IVA Colombia
             pedido.CostoEnvio = subtotal >= 50000 ? 0 : 5000; // Envío gratis sobre $50,000
-            pedido.Total = pedido.Subtotal + pedido.IVA + pedido.CostoEnvio;
+            pedido.Total = pedido.Subtotal + pedido.CostoEnvio;
 
             // Crear pedido
             await _unitOfWork.Pedidos.AddAsync(pedido);
@@ -70,28 +69,6 @@ namespace PastisserieAPI.Services.Services
             }
             await _unitOfWork.SaveChangesAsync();
 
-            // Si es personalizado, crear configuración
-            if (request.PersonalizadoConfig != null)
-            {
-                var config = _mapper.Map<PersonalizadoConfig>(request.PersonalizadoConfig);
-                config.PedidoId = pedido.Id;
-
-                // Calcular precio adicional por ingredientes
-                decimal precioIngredientes = 0;
-                foreach (var ingredienteId in request.PersonalizadoConfig.IngredientesIds)
-                {
-                    var ingrediente = await _unitOfWork.Ingredientes.GetByIdAsync(ingredienteId);
-                    if (ingrediente != null)
-                    {
-                        precioIngredientes += ingrediente.PrecioAdicional;
-                    }
-                }
-
-                config.PrecioAdicional = precioIngredientes;
-                pedido.Total += precioIngredientes;
-
-                await _unitOfWork.SaveChangesAsync();
-            }
 
             // Crear historial
             var historial = new PedidoHistorial

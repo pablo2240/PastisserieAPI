@@ -10,7 +10,6 @@ namespace PastisserieAPI.Services.Services.Interfaces
         Task<ProductoResponseDto?> GetByIdAsync(int id);
         Task<List<ProductoResponseDto>> GetByCategoriaAsync(string categoria);
         Task<List<ProductoResponseDto>> GetActivosAsync();
-        Task<List<ProductoResponseDto>> GetPersonalizablesAsync();
         Task<ProductoResponseDto> CreateAsync(CreateProductoRequestDto request);
         Task<ProductoResponseDto?> UpdateAsync(int id, UpdateProductoRequestDto request);
         Task<bool> DeleteAsync(int id);

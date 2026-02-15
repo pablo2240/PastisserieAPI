@@ -18,13 +18,6 @@ namespace PastisserieAPI.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Producto>> GetPersonalizablesAsync()
-        {
-            return await _dbSet
-                .Where(p => p.EsPersonalizable && p.Activo)
-                .ToListAsync();
-        }
-
         public async Task<IEnumerable<Producto>> GetProductosActivosAsync()
         {
             return await _dbSet
