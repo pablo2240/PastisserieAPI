@@ -27,21 +27,18 @@ namespace PastisserieAPI.Services.Mappings
 
             // ============ PRODUCTO MAPPINGS ============
             CreateMap<Producto, ProductoResponseDto>()
-                .ForMember(dest => dest.PromedioCalificacion, opt => opt.MapFrom(src =>
-                    src.Reviews.Any(r => r.Aprobada)
-                        ? src.Reviews.Where(r => r.Aprobada).Average(r => r.Calificacion)
-                        : 0))
-                .ForMember(dest => dest.TotalReviews, opt => opt.MapFrom(src =>
-                    src.Reviews.Count(r => r.Aprobada)));
+                .ForMember(dest => dest.CategoriaNombre,
+                           opt => opt.MapFrom(src => src.CategoriaProducto.Nombre));
 
             CreateMap<CreateProductoRequestDto, Producto>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => true))
                 .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => true));
-
-            CreateMap<UpdateProductoRequestDto, Producto>()
-                .ForMember(dest => dest.FechaActualizacion, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+                .ForMember(dest => dest.FechaActualizacion, opt => opt.Ignore())
+                .ForMember(dest => dest.CategoriaProducto, opt => opt.Ignore())
+                .ForMember(dest => dest.Reviews, opt => opt.Ignore())
+                .ForMember(dest => dest.PedidoItems, opt => opt.Ignore())
+                .ForMember(dest => dest.CarritoItems, opt => opt.Ignore());
 
             // ============ PEDIDO MAPPINGS ============
             CreateMap<Pedido, PedidoResponseDto>()

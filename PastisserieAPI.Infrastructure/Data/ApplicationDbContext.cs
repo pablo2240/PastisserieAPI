@@ -26,14 +26,9 @@ namespace PastisserieAPI.Infrastructure.Data
         public DbSet<PedidoHistorial> PedidoHistoriales { get; set; }
         public DbSet<Factura> Facturas { get; set; }
 
-
         // ============ CARRITO ============
         public DbSet<CarritoCompra> CarritosCompra { get; set; }
         public DbSet<CarritoItem> CarritoItems { get; set; }
-
-        // ============ PAGOS ============
-        public DbSet<TipoMetodoPago> TiposMetodoPago { get; set; }
-        public DbSet<MetodoPagoUsuario> MetodosPagoUsuario { get; set; }
 
         // ============ DIRECCIONES Y ENVÍOS ============
         public DbSet<DireccionEnvio> DireccionesEnvio { get; set; }
@@ -46,55 +41,11 @@ namespace PastisserieAPI.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Aplicar todas las configuraciones automáticamente
+            // Aplicar TODAS las configuraciones Fluent API automáticamente
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
-            // Configuraciones adicionales y seeds
-            ConfigureRelationships(modelBuilder);
+            // Datos iniciales (seeds)
             SeedInitialData(modelBuilder);
-        }
-
-        private void ConfigureRelationships(ModelBuilder modelBuilder)
-        {
-            // ============ USER - ENVIO (Repartidor) ============
-            modelBuilder.Entity<Envio>()
-                .HasOne(e => e.Repartidor)
-                .WithMany(u => u.EnviosAsignados)
-                .HasForeignKey(e => e.RepartidorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // ============ PEDIDO - USER ============
-            modelBuilder.Entity<Pedido>()
-                .HasOne(p => p.Usuario)
-                .WithMany(u => u.Pedidos)
-                .HasForeignKey(p => p.UsuarioId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // ============ REVIEW - USER ============
-            modelBuilder.Entity<Review>()
-                .HasOne(r => r.Usuario)
-                .WithMany(u => u.Reviews)
-                .HasForeignKey(r => r.UsuarioId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // ============ ÍNDICES ÚNICOS ============
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-
-            modelBuilder.Entity<Factura>()
-                .HasIndex(f => f.NumeroFactura)
-                .IsUnique();
-
-            // ============ ÍNDICES DE RENDIMIENTO ============
-            modelBuilder.Entity<Producto>()
-                .HasIndex(p => p.Categoria);
-
-            modelBuilder.Entity<Pedido>()
-                .HasIndex(p => p.Estado);
-
-            modelBuilder.Entity<Pedido>()
-                .HasIndex(p => p.FechaPedido);
         }
 
         private void SeedInitialData(ModelBuilder modelBuilder)
@@ -107,15 +58,6 @@ namespace PastisserieAPI.Infrastructure.Data
                 new Rol { Id = 4, Nombre = "Gerente", Activo = true }
             );
 
-            // ============ TIPOS DE MÉTODO DE PAGO ============
-            modelBuilder.Entity<TipoMetodoPago>().HasData(
-                new TipoMetodoPago { Id = 1, Nombre = "Efectivo", Descripcion = "Pago en efectivo contra entrega", Activo = true },
-                new TipoMetodoPago { Id = 2, Nombre = "Tarjeta de Crédito", Descripcion = "Pago con tarjeta de crédito", Activo = true },
-                new TipoMetodoPago { Id = 3, Nombre = "Tarjeta de Débito", Descripcion = "Pago con tarjeta de débito", Activo = true },
-                new TipoMetodoPago { Id = 4, Nombre = "Transferencia", Descripcion = "Transferencia bancaria", Activo = true },
-                new TipoMetodoPago { Id = 5, Nombre = "PSE", Descripcion = "Pago electrónico PSE", Activo = true }
-            );
-
             // ============ CATEGORÍAS DE PRODUCTOS ============
             modelBuilder.Entity<CategoriaProducto>().HasData(
                 new CategoriaProducto { Id = 1, Nombre = "Tortas", Descripcion = "Tortas y pasteles", Activa = true },
@@ -123,24 +65,6 @@ namespace PastisserieAPI.Infrastructure.Data
                 new CategoriaProducto { Id = 3, Nombre = "Postres", Descripcion = "Postres y dulces", Activa = true },
                 new CategoriaProducto { Id = 4, Nombre = "Galletas", Descripcion = "Galletas caseras", Activa = true }
             );
-
-        }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            // Actualizar automáticamente FechaActualizacion
-            var entries = ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Modified);
-
-            foreach (var entry in entries)
-            {
-                if (entry.Entity.GetType().GetProperty("FechaActualizacion") != null)
-                {
-                    entry.Property("FechaActualizacion").CurrentValue = DateTime.UtcNow;
-                }
-            }
-
-            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

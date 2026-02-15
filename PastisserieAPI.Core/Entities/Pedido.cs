@@ -13,13 +13,24 @@ namespace PastisserieAPI.Core.Entities
 
         public DateTime FechaPedido { get; set; } = DateTime.UtcNow;
 
+        // ========== ESTADO DEL PEDIDO ==========
         [Required]
         [MaxLength(50)]
-        public string Estado { get; set; } = "Pendiente";
+        public string Estado { get; set; } = "Pendiente"; // Pendiente, Confirmado, EnPreparacion, Listo, EnCamino, Entregado, Cancelado
+
+        // ========== PAGOS (WOMPI) ==========
+        [Required]
+        [MaxLength(50)]
+        public string EstadoPago { get; set; } = "Pendiente"; // Pendiente, Aprobado, Rechazado, Reembolsado
+
+        [MaxLength(100)]
+        public string? TransaccionId { get; set; } // ID de transacción de Wompi
 
         [Required]
-        public int MetodoPagoId { get; set; }
+        [MaxLength(50)]
+        public string MetodoPago { get; set; } = "Efectivo"; // Efectivo, Tarjeta, PSE, Nequi, Daviplata
 
+        // ========== DIRECCIÓN Y COSTOS ==========
         public int? DireccionEnvioId { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
@@ -32,6 +43,7 @@ namespace PastisserieAPI.Core.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal Total { get; set; }
 
+        // ========== APROBACIÓN Y FECHAS ==========
         public bool Aprobado { get; set; } = false;
 
         public DateTime? FechaAprobacion { get; set; }
@@ -45,12 +57,9 @@ namespace PastisserieAPI.Core.Entities
 
         public DateTime? FechaActualizacion { get; set; }
 
-        // Relaciones
+        // ========== RELACIONES ==========
         [ForeignKey("UsuarioId")]
         public virtual User Usuario { get; set; } = null!;
-
-        [ForeignKey("MetodoPagoId")]
-        public virtual MetodoPagoUsuario MetodoPago { get; set; } = null!;
 
         [ForeignKey("DireccionEnvioId")]
         public virtual DireccionEnvio? DireccionEnvio { get; set; }

@@ -27,19 +27,24 @@ namespace PastisserieAPI.Infrastructure.Data.Configurations
                 .IsRequired()
                 .HasDefaultValue(0);
 
-            builder.Property(p => p.Categoria)
-                .IsRequired()
-                .HasMaxLength(100);
-
             builder.Property(p => p.ImagenUrl)
                 .HasMaxLength(500);
 
-            // Índices
-            builder.HasIndex(p => p.Categoria)
-                .HasDatabaseName("IX_Productos_Categoria");
+            // Relación con Categoría (OBLIGATORIA)
+            builder.HasOne(p => p.CategoriaProducto)
+                .WithMany(c => c.Productos)
+                .HasForeignKey(p => p.CategoriaProductoId)
+                .OnDelete(DeleteBehavior.Restrict); // No eliminar categoría con productos
 
+            // Índices para búsquedas
             builder.HasIndex(p => p.Nombre)
                 .HasDatabaseName("IX_Productos_Nombre");
+
+            builder.HasIndex(p => p.CategoriaProductoId)
+                .HasDatabaseName("IX_Productos_CategoriaProductoId");
+
+            builder.HasIndex(p => p.Activo)
+                .HasDatabaseName("IX_Productos_Activo");
         }
     }
 }

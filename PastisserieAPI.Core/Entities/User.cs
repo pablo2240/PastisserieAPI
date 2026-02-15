@@ -41,8 +41,7 @@ namespace PastisserieAPI.Core.Entities
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
         public virtual ICollection<Notificacion> Notificaciones { get; set; } = new List<Notificacion>();
         public virtual CarritoCompra? CarritoCompra { get; set; }
-        public virtual ICollection<DireccionEnvio> Direcciones { get; set; } = new List<DireccionEnvio>();
-        public virtual ICollection<MetodoPagoUsuario> MetodosPago { get; set; } = new List<MetodoPagoUsuario>();
+        public virtual ICollection<DireccionEnvio> Direcciones { get; set; } = new List<DireccionEnvio>();     
         public virtual ICollection<Envio> EnviosAsignados { get; set; } = new List<Envio>();
     }
 }

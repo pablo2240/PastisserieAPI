@@ -24,9 +24,9 @@ namespace PastisserieAPI.Core.Entities
 
         public int? StockMinimo { get; set; }
 
+        // ========== CATEGORÍA OBLIGATORIA ==========
         [Required]
-        [MaxLength(100)]
-        public string Categoria { get; set; } = string.Empty;
+        public int CategoriaProductoId { get; set; }
 
         [MaxLength(500)]
         public string? ImagenUrl { get; set; }
@@ -37,7 +37,10 @@ namespace PastisserieAPI.Core.Entities
 
         public DateTime? FechaActualizacion { get; set; }
 
-        // Relaciones
+        // ========== RELACIONES ==========
+        [ForeignKey("CategoriaProductoId")]
+        public virtual CategoriaProducto CategoriaProducto { get; set; } = null!;
+
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
         public virtual ICollection<PedidoItem> PedidoItems { get; set; } = new List<PedidoItem>();
         public virtual ICollection<CarritoItem> CarritoItems { get; set; } = new List<CarritoItem>();

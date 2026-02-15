@@ -8,11 +8,14 @@
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public int? StockMinimo { get; set; }
-        public string Categoria { get; set; } = string.Empty;
+
+        // Categoría
+        public int CategoriaProductoId { get; set; }
+        public string CategoriaNombre { get; set; } = string.Empty; // Nombre de la categoría
+
         public string? ImagenUrl { get; set; }
-        public bool EsPersonalizable { get; set; }
         public bool Activo { get; set; }
-        public double PromedioCalificacion { get; set; }
-        public int TotalReviews { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public DateTime? FechaActualizacion { get; set; }
     }
 }

@@ -46,25 +46,29 @@ namespace PastisserieAPI.Services.Services
             return producto == null ? null : _mapper.Map<ProductoResponseDto>(producto);
         }
 
-        public async Task<List<ProductoResponseDto>> GetByCategoriaAsync(string categoria)
+        public async Task<List<ProductoResponseDto>> GetByCategoriaIdAsync(int categoriaId)
         {
-            var productos = await _unitOfWork.Productos.GetByCategoriaAsync(categoria);
-            return _mapper.Map<List<ProductoResponseDto>>(productos);
+            var productos = await _unitOfWork.Productos.GetByCategoriaIdAsync(categoriaId);
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
         }
 
         public async Task<List<ProductoResponseDto>> GetActivosAsync()
         {
             var productos = await _unitOfWork.Productos.GetProductosActivosAsync();
-            return _mapper.Map<List<ProductoResponseDto>>(productos);
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
         }
 
         public async Task<ProductoResponseDto> CreateAsync(CreateProductoRequestDto request)
         {
             var producto = _mapper.Map<Producto>(request);
+            producto.FechaCreacion = DateTime.UtcNow;
+
             await _unitOfWork.Productos.AddAsync(producto);
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<ProductoResponseDto>(producto);
+            // Obtener producto con categoría
+            var productoConCategoria = await _unitOfWork.Productos.GetByIdWithCategoriaAsync(producto.Id);
+            return _mapper.Map<ProductoResponseDto>(productoConCategoria!);
         }
 
         public async Task<ProductoResponseDto?> UpdateAsync(int id, UpdateProductoRequestDto request)
@@ -74,13 +78,39 @@ namespace PastisserieAPI.Services.Services
             if (producto == null)
                 return null;
 
-            _mapper.Map(request, producto);
+            // Mapear solo propiedades no nulas
+            if (!string.IsNullOrEmpty(request.Nombre))
+                producto.Nombre = request.Nombre;
+
+            if (request.Descripcion != null)
+                producto.Descripcion = request.Descripcion;
+
+            if (request.Precio.HasValue)
+                producto.Precio = request.Precio.Value;
+
+            if (request.Stock.HasValue)
+                producto.Stock = request.Stock.Value;
+
+            if (request.StockMinimo.HasValue)
+                producto.StockMinimo = request.StockMinimo.Value;
+
+            if (request.CategoriaProductoId.HasValue)
+                producto.CategoriaProductoId = request.CategoriaProductoId.Value;
+
+            if (request.ImagenUrl != null)
+                producto.ImagenUrl = request.ImagenUrl;
+
+            if (request.Activo.HasValue)
+                producto.Activo = request.Activo.Value;
+
             producto.FechaActualizacion = DateTime.UtcNow;
 
             await _unitOfWork.Productos.UpdateAsync(producto);
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<ProductoResponseDto>(producto);
+            // Obtener producto actualizado con categoría
+            var productoActualizado = await _unitOfWork.Productos.GetByIdWithCategoriaAsync(producto.Id);
+            return _mapper.Map<ProductoResponseDto>(productoActualizado);
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -90,7 +120,11 @@ namespace PastisserieAPI.Services.Services
             if (producto == null)
                 return false;
 
-            await _unitOfWork.Productos.DeleteAsync(producto);
+            // Soft delete
+            producto.Activo = false;
+            producto.FechaActualizacion = DateTime.UtcNow;
+
+            await _unitOfWork.Productos.UpdateAsync(producto);
             await _unitOfWork.SaveChangesAsync();
 
             return true;
@@ -99,7 +133,7 @@ namespace PastisserieAPI.Services.Services
         public async Task<List<ProductoResponseDto>> GetProductosBajoStockAsync()
         {
             var productos = await _unitOfWork.Productos.GetProductosBajoStockAsync();
-            return _mapper.Map<List<ProductoResponseDto>>(productos);
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
         }
     }
 }
