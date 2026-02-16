@@ -14,5 +14,11 @@ namespace PastisserieAPI.Services.Services.Interfaces
         Task<ProductoResponseDto?> UpdateAsync(int id, UpdateProductoRequestDto request);
         Task<bool> DeleteAsync(int id);
         Task<List<ProductoResponseDto>> GetProductosBajoStockAsync();
+
+        // ========== NUEVOS PARA F2 ==========
+        Task<List<ProductoResponseDto>> SearchByNameAsync(string nombre);
+        Task<List<ProductoResponseDto>> GetByPriceRangeAsync(decimal precioMin, decimal precioMax);
+        Task<List<ProductoResponseDto>> GetDisponiblesAsync();
+        Task<List<ProductoResponseDto>> SearchAsync(ProductoSearchDto filtros);
     }
 }

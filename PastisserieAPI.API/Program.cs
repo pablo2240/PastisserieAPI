@@ -42,6 +42,9 @@ builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
 builder.Services.AddScoped<IEnvioRepository, EnvioRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
+// ========== BACKGROUND SERVICE PARA LIBERAR RESERVAS (RN2) ==========
+builder.Services.AddHostedService<ReservaStockService>();
+
 // AutoMapper - Cargar desde el ensamblado de Services donde está MappingProfile
 builder.Services.AddAutoMapper(typeof(PastisserieAPI.Services.Mappings.MappingProfile));
 

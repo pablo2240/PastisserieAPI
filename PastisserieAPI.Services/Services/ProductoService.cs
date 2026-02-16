@@ -135,5 +135,36 @@ namespace PastisserieAPI.Services.Services
             var productos = await _unitOfWork.Productos.GetProductosBajoStockAsync();
             return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
         }
+
+        public async Task<List<ProductoResponseDto>> SearchByNameAsync(string nombre)
+        {
+            var productos = await _unitOfWork.Productos.SearchByNameAsync(nombre);
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
+        }
+
+        public async Task<List<ProductoResponseDto>> GetByPriceRangeAsync(decimal precioMin, decimal precioMax)
+        {
+            var productos = await _unitOfWork.Productos.GetByPriceRangeAsync(precioMin, precioMax);
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
+        }
+
+        public async Task<List<ProductoResponseDto>> GetDisponiblesAsync()
+        {
+            var productos = await _unitOfWork.Productos.GetDisponiblesAsync();
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
+        }
+
+        public async Task<List<ProductoResponseDto>> SearchAsync(ProductoSearchDto filtros)
+        {
+            var productos = await _unitOfWork.Productos.SearchAsync(
+                nombre: filtros.Nombre,
+                categoriaId: filtros.CategoriaId,
+                precioMin: filtros.PrecioMin,
+                precioMax: filtros.PrecioMax,
+                soloDisponibles: filtros.SoloDisponibles
+            );
+
+            return _mapper.Map<List<ProductoResponseDto>>(productos.ToList());
+        }
     }
 }

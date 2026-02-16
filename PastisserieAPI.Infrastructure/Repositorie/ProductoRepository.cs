@@ -100,5 +100,91 @@ namespace PastisserieAPI.Infrastructure.Repositories
                 .OrderBy(p => p.Nombre)
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Buscar productos por nombre
+        /// </summary>
+        public async Task<IEnumerable<Producto>> SearchByNameAsync(string nombre)
+        {
+            return await _dbSet
+                .Include(p => p.CategoriaProducto)
+                .Where(p => p.Activo &&
+                            p.Nombre.ToLower().Contains(nombre.ToLower()))
+                .OrderBy(p => p.Nombre)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Filtrar por rango de precio
+        /// </summary>
+        public async Task<IEnumerable<Producto>> GetByPriceRangeAsync(decimal precioMin, decimal precioMax)
+        {
+            return await _dbSet
+                .Include(p => p.CategoriaProducto)
+                .Where(p => p.Activo &&
+                            p.Precio >= precioMin &&
+                            p.Precio <= precioMax)
+                .OrderBy(p => p.Precio)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Obtener productos disponibles (stock > 0)
+        /// </summary>
+        public async Task<IEnumerable<Producto>> GetDisponiblesAsync()
+        {
+            return await _dbSet
+                .Include(p => p.CategoriaProducto)
+                .Where(p => p.Activo && p.Stock > 0)
+                .OrderBy(p => p.Nombre)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Búsqueda avanzada con múltiples filtros
+        /// </summary>
+        public async Task<IEnumerable<Producto>> SearchAsync(
+            string? nombre = null,
+            int? categoriaId = null,
+            decimal? precioMin = null,
+            decimal? precioMax = null,
+            bool? soloDisponibles = null)
+        {
+            var query = _dbSet
+                .Include(p => p.CategoriaProducto)
+                .Where(p => p.Activo)
+                .AsQueryable();
+
+            // Filtro por nombre
+            if (!string.IsNullOrWhiteSpace(nombre))
+            {
+                query = query.Where(p => p.Nombre.ToLower().Contains(nombre.ToLower()));
+            }
+
+            // Filtro por categoría
+            if (categoriaId.HasValue)
+            {
+                query = query.Where(p => p.CategoriaProductoId == categoriaId.Value);
+            }
+
+            // Filtro por rango de precio
+            if (precioMin.HasValue)
+            {
+                query = query.Where(p => p.Precio >= precioMin.Value);
+            }
+
+            if (precioMax.HasValue)
+            {
+                query = query.Where(p => p.Precio <= precioMax.Value);
+            }
+
+            // Filtro por disponibilidad
+            if (soloDisponibles == true)
+            {
+                query = query.Where(p => p.Stock > 0);
+            }
+
+            return await query.OrderBy(p => p.Nombre).ToListAsync();
+        }
     }
 }

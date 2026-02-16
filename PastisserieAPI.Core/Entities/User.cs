@@ -35,6 +35,12 @@ namespace PastisserieAPI.Core.Entities
 
         public DateTime? FechaActualizacion { get; set; }
 
+        // ========== SEGURIDAD (PARA FUTURO) ==========
+        //public int IntentosLoginFallidos { get; set; } = 0;
+        //public DateTime? FechaUltimoIntentoFallido { get; set; }
+        //public bool CuentaBloqueada { get; set; } = false;
+        //public DateTime? FechaDesbloqueo { get; set; }
+
         // Relaciones
         public virtual ICollection<UserRol> UserRoles { get; set; } = new List<UserRol>();
         public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();

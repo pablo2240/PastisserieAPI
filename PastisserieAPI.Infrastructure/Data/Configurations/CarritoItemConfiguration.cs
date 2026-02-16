@@ -27,6 +27,14 @@ namespace PastisserieAPI.Infrastructure.Data.Configurations
             builder.HasIndex(ci => new { ci.CarritoId, ci.ProductoId })
                 .IsUnique()
                 .HasDatabaseName("IX_CarritoItems_CarritoId_ProductoId");
+
+            // Configuración para ReservaHasta
+            builder.Property(ci => ci.ReservaHasta)
+                .IsRequired(false); // Nullable
+
+            // Índice para búsquedas de reservas expiradas
+            builder.HasIndex(ci => ci.ReservaHasta)
+                .HasDatabaseName("IX_CarritoItems_ReservaHasta");
         }
     }
 }

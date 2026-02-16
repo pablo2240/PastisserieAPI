@@ -28,7 +28,15 @@ namespace PastisserieAPI.Services.Mappings
             // ============ PRODUCTO MAPPINGS ============
             CreateMap<Producto, ProductoResponseDto>()
                 .ForMember(dest => dest.CategoriaNombre,
-                           opt => opt.MapFrom(src => src.CategoriaProducto.Nombre));
+                           opt => opt.MapFrom(src => src.CategoriaProducto.Nombre))
+                .ForMember(dest => dest.EstadoDisponibilidad,
+                           opt => opt.MapFrom(src => src.Stock > 0 ? "Disponible" : "Sin stock"))
+                .ForMember(dest => dest.CalificacionPromedio,
+                           opt => opt.MapFrom(src => src.Reviews.Any(r => r.Aprobada)
+                               ? src.Reviews.Where(r => r.Aprobada).Average(r => r.Calificacion)
+                               : (double?)null))
+                .ForMember(dest => dest.TotalReviews,
+                           opt => opt.MapFrom(src => src.Reviews.Count(r => r.Aprobada)));
 
             CreateMap<CreateProductoRequestDto, Producto>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())

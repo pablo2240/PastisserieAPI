@@ -15,7 +15,16 @@
 
         public string? ImagenUrl { get; set; }
         public bool Activo { get; set; }
+
+        // ========== DISPONIBILIDAD (F1) ==========
+        public string EstadoDisponibilidad { get; set; } = string.Empty; // "Disponible" | "Sin stock"
+        public bool EstaDisponible => Stock > 0;
+
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaActualizacion { get; set; }
+
+        // Reviews (si se incluyen)
+        public double? CalificacionPromedio { get; set; }
+        public int? TotalReviews { get; set; }
     }
 }

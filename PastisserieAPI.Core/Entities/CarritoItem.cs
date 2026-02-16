@@ -19,6 +19,9 @@ namespace PastisserieAPI.Core.Entities
 
         public DateTime FechaAgregado { get; set; } = DateTime.UtcNow;
 
+        // ========== RESERVA TEMPORAL (RN2) ==========
+        public DateTime? ReservaHasta { get; set; } // Null = no reservado, DateTime = reservado hasta
+
         // Relaciones
         [ForeignKey("CarritoId")]
         public virtual CarritoCompra Carrito { get; set; } = null!;
