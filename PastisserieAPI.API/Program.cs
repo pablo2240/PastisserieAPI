@@ -44,6 +44,7 @@ builder.Services.AddCors(options =>
             "https://localhost:7108", 
             "http://localhost:5174",
             "https://patisserie-deluxes-chejf8bxf9hshfcm.canadacentral-01.azurewebsites.net",
+            "https://wonderful-rock-0c5d18610.2.azurestaticapps.net",
             builder.Configuration["FrontendUrl"] ?? "http://localhost:5173"
               ) 
               .AllowAnyMethod()
