@@ -1,0 +1,99 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet Packages
+*.nupkg
+**/[Pp]ackages/*
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Build Results
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Vite
+pastisserie-front/.vite/
+dist/
+dist-ssr/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Azure / Sensitive Configuration
+**/appsettings.json
+**/appsettings.*.json
+!appsettings.Example.json
+
+# Certificates and Keys
+*.pfx
+*.pem
+*.key
+*.cer
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# AI/Agent files
+.agents/
+.opencode/
+
+# Local database files
+*.mdf
+*.ldf
+*.ndf
+
+# Crash reports
+mono_crash.*
+
+# azd
+.azure/
+
+# Build and log files
+*.txt
+build_log*
+*.log
+
+# Package lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
